@@ -1,0 +1,18 @@
+version: "2"
+services:
+  php_mysql_apache:
+    build: ./php_mysql_apache
+    networks:
+      default:
+        aliases:
+          - magentotemplate.local
+    volumes:
+      - /root/.composer:/root/.composer
+      - ../../../www/composer.json:/var/www/html/composer.json
+      - ../../../www/composer.lock:/var/www/html/composer.lock
+      - ../../../test/:/var/www/test/
+      - ../../../www/app/etc/config.php:/var/www/html/app/etc/config.php
+      - ../../../www/app/code/Smartsites/:/var/www/html/app/code/Smartsites/
+      - ../../../www/app/design/frontend/Smartsites/:/var/www/html/app/design/frontend/Smartsites/
+    ports:
+      - 80:80

@@ -1,0 +1,19 @@
+actor: Tester
+paths:
+    tests: .
+    log: _output
+    data: _data
+    helpers: _support
+settings:
+    bootstrap: _bootstrap.php
+    colors: true
+    memory_limit: 1024M
+modules:
+  config:
+#      Db:
+#          dsn: 'mysql:host=php_mysql_apache;dbname=magento'
+#          user: 'root'
+#          password: 'pw'
+#          dump: tests/_data/fixture.sql
+#          populate: true
+#          cleanup: true

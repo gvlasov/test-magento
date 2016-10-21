@@ -1,0 +1,10 @@
+/home/[user]/repo/www/var/log/*.log {
+  daily
+  rotate 7
+  missingok
+  copytruncate
+  notifempty
+  size 100k
+  create 700 [user] [user]
+  dateext
+}

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+cd `git rev-parse --show-toplevel`
+
+cd env/docker/environment
+docker-compose exec php_mysql_apache codecept \
+    -c ../test/codeception.yml \
+    "$@"

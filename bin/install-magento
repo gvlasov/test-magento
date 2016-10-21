@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Runs magento installation process: installs dependencies, fills out the database, configures various parameters.
+set -ex
+cd `git rev-parse --show-toplevel`
+
+if [ ! -n "$1" ] || [ ! -n "$2" ] || [ ! -n "$3" ] || [ ! -n "$4" ]; then
+    echo "Not enough arguments."
+    echo "Usage: ./install-magento DB_NAME DB_USER DB_PASSWORD BASE_URL"
+    echo "E.g.:  ./install-magento magento mageuser 'f8#AG1~a9!$' http://new-shop.smartwebsitedesign.com/"
+    exit 1
+fi
+
+db_name="$1"
+db_user="$2"
+db_password="$3"
+base_url="$4"
+cd www
+composer install
+php -d memory_limit=-1 \
+    bin/magento setup:install \
+    --admin-firstname=Admin \
+    --admin-lastname=Admin \
+    --admin-email=sergey@smartsites.com \
+    --admin-user=admin \
+    --admin-password=admin@m2 \
+    --base-url=${base_url} \
+    --backend-frontname=admin \
+    --db-host=localhost \
+    --db-name=${db_name} \
+    --db-user=${db_user} \
+    --db-password=${db_password}
+# Installation will overwrite the config, roll it back
+git checkout -- app/etc/config.php

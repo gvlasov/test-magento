@@ -1,0 +1,13 @@
+#Magento
+/*
+!/.gitignore
+!/composer.json
+!/composer.lock
+!/app
+/app/.htaccess
+/app/autoload.php
+/app/bootstrap.php
+/app/functions.php
+!/app/etc
+/app/etc/*
+!/app/etc/config.php

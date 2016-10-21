@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Pulls from master and clears website caches
+set -e
+cd `git rev-parse --show-toplevel`
+cd www
+php bin/magento cache:flush
+rm -r pub/static/frontend var/view_preprocessed

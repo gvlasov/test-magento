@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+if [ -d ~/.logrotate/ ]; then
+    echo "error: You seem to have logrotate already configured for some website for user ${USER}."
+    echo "If this is not the first website for this user where you want to configure logrotate,"
+    echo "then configure logrotate manually (use $0 script for reference)"
+    echo "Otherwise, remove ~/.logrotate directory and all logrotate entries in \`crontab -e\`"
+    exit 1
+fi
+set -ex
+cd `git rev-parse --show-toplevel`
+mkdir -p ~/.logrotate/
+cp env/all/logrotate/magento ~/.logrotate/magento
+sed -i -- 's/\[user\]/'${USER}'/g' ~/.logrotate/magento
+# Check if the logrotate config is correct, or print an error message and exit otherwise.
+if /usr/sbin/logrotate -d ~/.logrotate/magento 2>&1 | grep -q error; then
+    /usr/sbin/logrotate -d ~/.logrotate/magento
+    exit 1
+fi
+(crontab -l ; cat << EOF
+# Will run log rotation at 2:30 every day.
+30 2 * * * /usr/sbin/logrotate -s /home/${USER}/.logrotate/status /home/${USER}/.logrotate/magento > /dev/null 2>&1
+EOF
+) | crontab -

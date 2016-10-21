@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Usage: bin/production/install DB_NAME DB_USER DB_PASSWORD BASE_URL
+set -ex
+cd `git rev-parse --show-toplevel`
+
+bin/install-magento "$1" "$2" "$3" "$4"
+php www/bin/magento deploy:mode:set developer
+bin/symlink-local-files staging
